@@ -1,0 +1,126 @@
+/* Estilos generales */
+body {
+    background-color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+
+/* Contenedor del formulario */
+.login-container {
+    background-color: #f8f9fa; /* Fondo blanco-grisáceo */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 320px; /* Limita el ancho */
+    text-align: center;
+}
+
+/* Estilos del formulario */
+.login-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Cuadros de entrada */
+.login-container input {
+    width: 90%; /* Reduce el ancho */
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Botón de inicio de sesión */
+.login-container button {
+    background-color: #ffcc00; /* Amarillo */
+    color: black;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-container button:hover {
+    background-color: #e6b800; /* Amarillo más oscuro */
+}
+}
+
+/* 🔹 Header */
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    block-size: 100px; /* Ajusta la altura según necesites */
+    padding: 1rem; /* Espaciado uniforme */
+}
+
+header img {
+    inline-size: 150px;  /* Tamaño de la imagen */
+    block-size: auto;  /* Mantiene la proporción */
+}
+
+/* 🔹 Caja con texto vertical */
+.caja {
+    inline-size: 300px;
+    writing-mode: vertical-rl; /* Texto de arriba hacia abajo */
+}
+
+/* 🔹 Inputs y botones */
+input, button {
+    display: block;
+    inline-size: 100%;
+    margin: 0.5rem 0;
+    padding: 0.75rem;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+button {
+    background-color: yellow;
+    color: black;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #FFC300;
+}
+
+/* 🔹 Estilos específicos de elementos */
+.mi-div {
+    color: yellow;
+    background-color: black;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+/* 🔹 Mensajes de notificación */
+.mensaje {
+    position: fixed;
+    inset-inline-start: 50%;
+    inset-block-start: 10px;
+    transform: translateX(-50%);
+    background: #222;
+    color: rgb(200, 9, 9);
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    font-weight: bold;
+    animation: fadeOut 3s forwards;
+    opacity: 0.9;
+}
+
+.mensaje.success { background: green; }
+.mensaje.error { background: red; }
+
+/* 🔹 Animación de desaparición */
+@keyframes fadeOut {
+    0% { opacity: 1; transform: translateX(-50%) scale(1); }
+    100% { opacity: 0; transform: translateX(-50%) scale(0.95); visibility: hidden; }
+}

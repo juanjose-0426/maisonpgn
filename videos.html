@@ -1,0 +1,62 @@
+<script>
+    document.addEventListener("DOMContentLoaded", async function () {
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+            window.location.href = "index.html";
+            return;
+        }
+
+        await cargarVideos();
+
+        document.getElementById("logout-btn").addEventListener("click", () => {
+            sessionStorage.removeItem("token");
+            window.location.href = "index.html";
+        });
+    });
+
+    async function cargarVideos() {
+        try {
+            const token = sessionStorage.getItem("token");
+            const baseURL = window.location.origin.replace(":5500", ":5000");
+
+            // ⚠️ Corrigiendo las rutas del backend
+            const videosRes = await fetch(`${baseURL}/videos-desbloqueados`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+
+            if (!videosRes.ok) throw new Error("Error al obtener los videos");
+
+            const videos = await videosRes.json();
+
+            if (!videos || videos.length === 0) {
+                throw new Error("No hay videos disponibles o error en la API.");
+            }
+
+            const contenedor = document.getElementById("videos-container");
+            contenedor.innerHTML = ""; // Limpiar antes de agregar videos
+
+            videos.forEach((video) => {
+                const videoElement = document.createElement("div");
+                videoElement.classList.add("video");
+
+                const videoURL = `${baseURL}/videos/${video.ruta_video}`; // 🛠 Ajustado para coincidir con el backend
+                console.log("Verificando URL del video:", videoURL);
+
+                videoElement.innerHTML = `
+                    <h3>${video.titulo}</h3>
+                    <video controls>
+                        <source src="${videoURL}" type="video/mp4">
+                        Tu navegador no soporta la reproducción de videos.
+                    </video>
+                `;
+
+                contenedor.appendChild(videoElement);
+            });
+
+            document.getElementById("loading-spinner").style.display = "none"; // Ocultar carga
+        } catch (error) {
+            document.getElementById("videos-container").innerHTML = `<p style="color:red;">Error al cargar los videos. Intenta recargar.</p>`;
+            console.error("Error al cargar videos:", error);
+        }
+    }
+</script>

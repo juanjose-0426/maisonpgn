@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Video</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-block-start: 10px;
+        }
+        input[type="text"],
+        input[type="file"] {
+            inline-size: 100%;
+            padding: 8px;
+            margin-block-start: 5px;
+            margin-block-end: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #b30000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Subir Video</h1>
+    <form id="videoForm" enctype="multipart/form-data">
+        <label for="titulo">Título:</label>
+        <input type="text" name="titulo" id="titulo" placeholder="Escribe el título del video" required>
+
+        <label for="nivel">Nivel:</label>
+        <input type="text" name="nivel" id="nivel" placeholder="Escribe el nivel" required>
+
+        <label for="video">Selecciona un video:</label>
+        <input type="file" name="video" id="video" accept=".mp4, .avi, .mkv" required>
+
+        <button type="submit">Subir Video</button>
+    </form>
+
+    <script>
+        // Escuchar el evento submit del formulario
+        document.getElementById("videoForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Evita el envío tradicional del formulario
+            
+            const tituloInput = document.getElementById("titulo").value;
+            const nivelInput = document.getElementById("nivel").value;
+            const fileInput = document.getElementById("video").files[0]; // Obtener archivo seleccionado
+            
+            if (!fileInput) {
+                alert("Por favor, selecciona un archivo.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("video", fileInput);
+            formData.append("titulo", tituloInput);
+            formData.append("nivel", nivelInput);
+
+            try {
+    const token = localStorage.getItem("token"); // Obtener token almacenado
+
+    const response = await fetch("http://localhost:5000/subir-video", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}` // Enviar token en la cabecera
+        }
+        // Aquí puedes agregar 'body' si estás enviando datos, como FormData
+    });
+
+    const data = await response.json();
+    console.log(data);
+} catch (error) {
+    console.error("Error al subir el video:", error);
+}
+
+        });
+    </script>
+</body>
+</html>

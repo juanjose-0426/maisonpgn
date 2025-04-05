@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Sistema de Videos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            margin: 10px 0;
+        }
+        .container {
+            background: rgba(255, 255, 0, 0.9);
+            color: #000;
+            display: inline-block;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 0, 0.5);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        fieldset {
+            border: none;
+            inline-size: 80%;
+            max-inline-size: 250px;
+        }
+        input {
+            inline-size: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #000000;
+            border-radius: 5px;
+        }
+        button {
+            background-color: rgb(0, 0, 0);
+            color: yellow;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: yellow;
+            color: rgb(129, 125, 125);
+        }
+        #success-message {
+            display: none;
+            margin-block-start: 10px;
+            font-weight: bold;
+        }
+        footer {
+            margin-block-start: 20px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://i.ibb.co/sv9MV0hH/Logo-Maison.png" alt="Logo Maison" width="250">
+    </header>    
+
+    <div class="container">
+        <h1>Crear Cuenta</h1>
+        <p id="success-message" aria-live="polite"></p>
+
+        <form id="registro-form">
+            <fieldset>
+                <legend>Información de Registro</legend>
+
+                <label for="nuevo-usuario">Usuario:</label>
+                <input type="text" id="nuevo-usuario" name="usuario" placeholder="Usuario" required autocomplete="username">
+
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" placeholder="Correo Electrónico" required autocomplete="email">
+
+                <label for="nueva-contrasena">Contraseña:</label>
+                <input type="password" id="nueva-contrasena" name="contrasena" placeholder="Contraseña" required pattern=".{8,}" title="La contraseña debe tener al menos 8 caracteres" autocomplete="new-password">
+
+                <label for="confirmar-contrasena">Confirmar Contraseña:</label>
+                <input type="password" id="confirmar-contrasena" name="confirmar-contrasena" placeholder="Repite tu contraseña" required>
+
+                <button type="submit">Registrarse</button>
+            </fieldset>
+        </form>
+
+        <p>¿Ya tienes cuenta? <a href="index.html">Inicia sesión aquí</a></p>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Sistema de Videos. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        document.getElementById('registro-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita el envío del formulario
+
+            let usuario = document.getElementById('nuevo-usuario').value.trim();
+            let email = document.getElementById('email').value.trim();
+            let contrasena = document.getElementById('nueva-contrasena').value;
+            let confirmarContrasena = document.getElementById('confirmar-contrasena').value;
+            let mensaje = document.getElementById('success-message');
+
+            // Validar que las contraseñas coincidan
+            if (contrasena !== confirmarContrasena) {
+                mensaje.style.color = "red";
+                mensaje.textContent = "Las contraseñas no coinciden.";
+                mensaje.style.display = "block";
+                return;
+            }
+
+            // Simulación de registro exitoso
+            mensaje.style.color = "green";
+            mensaje.textContent = "Registro exitoso. Redirigiendo...";
+            mensaje.style.display = "block";
+
+            setTimeout(() => {
+                window.location.href = "index.html"; // Simulación de redirección
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

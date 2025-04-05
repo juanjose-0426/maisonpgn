@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | Sistema de Videos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form action="/login" method="POST">
+            <input type="text" name="usuario" placeholder="Usuario" required>
+            <input type="password" name="contraseña" placeholder="Contraseña" required>
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
+
+</body>
+</html>
+<script>
+    document.getElementById("login-form").addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const usuario = document.getElementById("usuario").value;
+        const contrasena = document.getElementById("contrasena").value;
+
+        const respuesta = await fetch("/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ usuario, contrasena })
+        });
+
+        const resultado = await respuesta.json();
+
+        if (resultado.exito) {
+            localStorage.setItem("token", resultado.token);
+            window.location.href = "videos.html"; // Redirigir a la página de videos
+        } else {
+            alert("Usuario o contraseña incorrectos");
+        }
+    });
+</script>

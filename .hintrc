@@ -1,0 +1,7 @@
+{
+  "extends": ["web-recommended"],
+  "hints": {
+    "performance-budget": ["error", { "timing": 1000 }],
+    "meta-charset-utf-8": "error"
+  }
+}

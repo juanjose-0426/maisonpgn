@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Inicia sesión en el Sistema de Videos y accede a contenido exclusivo organizado por niveles.">
+    <meta name="keywords" content="login, sistema de videos, acceso, contenido exclusivo">
+    <meta name="author" content="Tu Nombre o Empresa">
+    <title>Iniciar Sesión | Sistema de Videos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    </style>
+</head>
+<body>
+    <img src="https://i.ibb.co/sv9MV0hH/Logo-Maison.png"  
+             alt="Logo-Maison"  
+             width="300">
+    <div class="container">
+        <h1>Bienvenido</h1>
+        <div class="form-container">
+            <form id="login-form">
+                <input type="text" id="usuario" placeholder="Usuario" required autofocus>
+                <input type="password" id="contrasena" placeholder="Contraseña" required>             
+                
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            <p id="error-message">Usuario o contraseña incorrectos</p>
+        </div>
+        <p>¿No tienes cuenta? <a href="registro.html" style="color: yellow;">Regístrate</a></p>
+    </div>
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("service-worker.js")
+                .then(reg => console.log("✅ Service Worker registrado:", reg.scope))
+                .catch(err => console.error("❌ Error registrando Service Worker:", err));
+        }
+        document.getElementById("login-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const usuario = document.getElementById("usuario").value.trim();
+            const contrasena = document.getElementById("contrasena").value.trim();
+            const errorMessage = document.getElementById("error-message");
+            
+            if (!usuario || !contrasena) {
+                errorMessage.textContent = "Todos los campos son obligatorios.";
+                errorMessage.style.display = "block";
+                return;
+            }
+            
+            try {
+                const respuesta = await fetch("/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ usuario, contrasena }),
+                    credentials: "include"
+                });
+                
+                const resultado = await respuesta.json();
+                
+                if (resultado.exito) {
+                    localStorage.setItem("token", resultado.token);
+                    window.location.href = "videos.html";
+                } else {
+                    errorMessage.textContent = resultado.message || "Usuario o contraseña incorrectos.";
+                    errorMessage.style.display = "block";
+                }
+            } catch (error) {
+                console.error("Error en la solicitud:", error);
+                errorMessage.textContent = "Error de conexión, intenta de nuevo.";
+                errorMessage.style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
